@@ -1,0 +1,12 @@
+.list{
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+}
+
+@media(min-width: 769px){
+    .list{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
