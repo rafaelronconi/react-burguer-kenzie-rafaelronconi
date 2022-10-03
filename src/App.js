@@ -9,7 +9,8 @@ function App() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentSale, setCurrentSale] = useState([])
-
+  
+  console.log(currentSale)
   useEffect(() => {
     fetch("https://hamburgueria-kenzie-json-serve.herokuapp.com/products")
     .then((response) => response.json())
@@ -25,11 +26,29 @@ function App() {
   }
 
   function handleClick(productId){
-    setCurrentSale([...currentSale, (products.find((product) => product.id === productId))])
+    const existItem = currentSale.some((product) => product.id === productId)
+    if(existItem){
+      setCurrentSale( currentSale.map((item) => {
+        return ( item.id === productId
+          ? { ...item, qtd: item.qtd + 1 }
+          : item)
+      }))
+    }else{
+      setCurrentSale([...currentSale, {...(products.find((product) => product.id === productId)), 'qtd':1}])
+    }
   }
 
   function removeProduct(value){
-    setCurrentSale(currentSale.filter((product) => product.id !== value.id))
+    const existItem = currentSale.find((product) => product.id === value.id)
+    if(existItem !== undefined && existItem.qtd > 1){
+      setCurrentSale( currentSale.map((item) => {
+        return ( item.id === value.id
+          ? { ...item, qtd: item.qtd - 1 }
+          : item)
+      }))
+    }else{
+      setCurrentSale(currentSale.filter((product) => product.id !== value.id))
+    } 
   }
 
   function removeAll(){

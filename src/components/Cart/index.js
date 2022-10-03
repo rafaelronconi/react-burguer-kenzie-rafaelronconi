@@ -26,6 +26,7 @@ function Cart({ currentSale, removeProduct, removeAll }){
                                 <img src={currentProduct.img} alt="imagem do produto" className="img"/>
                                 <span className="name">{currentProduct.name}</span>
                                 <span className="category">{currentProduct.category}</span>
+                                <span className="qtd">Quantidade:{currentProduct.qtd}</span>
                                 <button onClick={() => removeProduct(currentProduct)} className="remove">Remover</button>
                             </div>
                         )}
@@ -35,7 +36,7 @@ function Cart({ currentSale, removeProduct, removeAll }){
                             <div className='totalText'>Total:</div>
                             <div className='valueText'>
                                 R$ {currentSale.reduce(
-                                    (acum, cur) => (acum + cur.price),0
+                                    (acum, cur) => (acum + (cur.price * cur.qtd)),0
                                 ).toFixed(2)}
                             </div>
                         </div>
